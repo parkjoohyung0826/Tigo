@@ -8,6 +8,7 @@ import 'package:latlong2/latlong.dart';
 import '../screens/recommendation_screen.dart';
 import 'place_screen.dart';
 
+
 class SeoulTripScreen extends StatefulWidget {
   const SeoulTripScreen({super.key});
 
@@ -18,6 +19,8 @@ class SeoulTripScreen extends StatefulWidget {
 class _SeoulTripScreenState extends State<SeoulTripScreen> {
   final List<String> days = ['May 20', 'May 21', 'May 22', 'May 23'];
   int selectedDayIndex = 0;
+
+  bool showRecommendations = false;
 
   @override
   Widget build(BuildContext context) {
@@ -128,7 +131,31 @@ class _SeoulTripScreenState extends State<SeoulTripScreen> {
                         ),
                       ),
                     ),
-                    const Header(),
+                    Header(
+                      toggleValue: showRecommendations,
+                      onToggle: (val) {
+                        setState(() {
+                          showRecommendations = val;
+                        });
+
+                        if (val) {
+                          Future.microtask(() {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => const RecommendationScreen(),
+                                settings: RouteSettings(arguments: true),
+                              ),
+                            ).then((_) {
+                              setState(() {
+                                showRecommendations = false;
+                              });
+                            });
+                          });
+                        }
+                      },
+                    ),
+
                     SizedBox(height: 6),
                     DateChips(
                       days: days,
