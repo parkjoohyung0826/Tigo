@@ -24,7 +24,10 @@ class _ChatScreenState extends State<ChatScreen> {
   void initState() {
     super.initState();
     _messages.addAll([
-      ChatMessage(text: 'Welcome! Let’s plan your perfect trip.😊', isUser: false),
+      ChatMessage(
+        text: 'Welcome! Let’s plan your perfect trip.😊',
+        isUser: false,
+      ),
       ChatMessage(
         text: 'https://www.youtube.com/watch?v=xNRuonwDGrg',
         isUser: false,
@@ -103,9 +106,10 @@ class _ChatScreenState extends State<ChatScreen> {
                               setState(() {
                                 _messages[index].feedback = feedback;
                               });
-                              final snackText = feedback == 0
-                                  ? 'You accepted the recommendation.'
-                                  : 'You rejected the recommendation.';
+                              final snackText =
+                                  feedback == 0
+                                      ? 'You accepted the recommendation.'
+                                      : 'You rejected the recommendation.';
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
                                   content: Text(snackText),

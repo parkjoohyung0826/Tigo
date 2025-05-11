@@ -15,7 +15,7 @@ class TravelPlanPrompt extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 48.0, top: 6), // 말풍선 기준선에 맞춤
+      padding: const EdgeInsets.only(left: 48.0, top: 6),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -44,7 +44,7 @@ class TravelPlanPrompt extends StatelessWidget {
                 backgroundColor:
                     selectedOption == null
                         ? Colors.grey[300]
-                        : Colors.blue[600], // 활성화: 파랑, 비활성화: 회색
+                        : Colors.blue[600],
                 foregroundColor: Colors.white,
                 padding: const EdgeInsets.symmetric(
                   horizontal: 20,
