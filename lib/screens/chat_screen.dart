@@ -130,7 +130,7 @@ class _ChatScreenState extends State<ChatScreen> {
                           avatarUrl:
                               msg.isUser
                                   ? 'assets/avatar_user.png'
-                                  : 'assets/avatar_bot.png',
+                                  : 'assets/tigo_character.png',
                         );
                       },
                     ),

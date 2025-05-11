@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../widgets/trip_plan/header.dart';
 import 'place_screen.dart';
+import '../widgets/ask_tigo_button.dart'; // ✅ 티고 버튼 import
 
 class RecommendationScreen extends StatefulWidget {
   const RecommendationScreen({super.key});
@@ -16,7 +17,7 @@ class _RecommendationScreenState extends State<RecommendationScreen> {
     "Healing", "Unique", "Photogenic", "Family-friendly", "Scenic", "Quiet"
   ];
 
-  final Set<String> selectedMoods = {}; // 기본 선택 없음
+  final Set<String> selectedMoods = {};
   bool toggleValue = false;
 
   @override
@@ -164,7 +165,6 @@ class _RecommendationScreenState extends State<RecommendationScreen> {
                               Expanded(
                                 child: ElevatedButton(
                                   onPressed: () {
-                                    // 적용 로직 추가 가능
                                   },
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: const Color(0xFF1F1F1F),
@@ -189,6 +189,7 @@ class _RecommendationScreenState extends State<RecommendationScreen> {
               );
             },
           ),
+          const AskTigoButton(),
         ],
       ),
     );

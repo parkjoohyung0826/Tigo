@@ -72,6 +72,7 @@ flutter:
     - assets/images/san_francisco.png
     - assets/images/rome.png
     - assets/images/tokyo.png
+    - assets/images/ask_tigo.png
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
