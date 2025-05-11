@@ -1,9 +1,16 @@
 // widgets/header.dart
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import '../../screens/recommendation_screen.dart';
 
 class Header extends StatelessWidget {
-  const Header({super.key});
+  final bool toggleValue;
+  final ValueChanged<bool> onToggle;
+  const Header({
+    super.key,
+    required this.toggleValue,
+    required this.onToggle,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -22,24 +29,18 @@ class Header extends StatelessWidget {
           const Spacer(),
           const Text('New Spot Picks', style: TextStyle(fontSize: 14)),
           const SizedBox(width: 8),
-          Transform.scale(
-            scale: 0.8, child: Switch(
-            value: false,
-            onChanged: (val) {
-              if (val) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => RecommendationScreen(),
-                  ),
-                );
-              }
-            },
-            activeColor: const Color(0xFF55A3F1),
-          ),
-          ),
+      Transform.scale(
+        scale: 0.8,
+        child: CupertinoSwitch(
+          value: toggleValue,
+          onChanged: onToggle,
+          activeColor: Color(0xFF55A3F1), // 파란색 트랙
+          // thumbColor: Colors.white, // Flutter 버전에 따라 이게 필요 없을 수도 있어요
+         ),
+         ),
         ],
       ),
     );
   }
 }
+
