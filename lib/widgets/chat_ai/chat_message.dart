@@ -1,4 +1,4 @@
-enum MessageType { text, videoCard }
+enum MessageType { text, videoCard, prompt }
 
 class ChatMessage {
   final String text;

@@ -30,9 +30,7 @@ class TravelAITigoApp extends StatelessWidget {
     return MaterialApp(
       title: 'Travel AI Tigo',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        fontFamily: 'Arial',
-      ),
+      theme: ThemeData(fontFamily: 'Arial'),
       home: const GetStartedPage(),
     );
   }
@@ -76,7 +74,6 @@ class GetStartedPage extends StatelessWidget {
                     borderRadius: BorderRadius.circular(40),
                   ),
 
-
                   child: Center(
                     child: Image.asset(
                       'assets/tigo_logo.png',
@@ -117,8 +114,9 @@ class GetStartedPage extends StatelessWidget {
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (
-                              context) => const TigoHomePage()),
+                          MaterialPageRoute(
+                            builder: (context) => const TigoHomePage(),
+                          ),
                         );
                       },
                       icon: Image.asset(

@@ -4,6 +4,7 @@ import '../widgets/chat_ai/chat_bubble.dart';
 import '../widgets/chat_ai/input_bar.dart';
 import '../widgets/chat_ai/chat_message.dart';
 import '../widgets/chat_ai/youtube_card.dart';
+import '../widgets/chat_ai/travel_plan_prompt.dart';
 
 class ChatScreen extends StatefulWidget {
   const ChatScreen({super.key});
@@ -16,6 +17,9 @@ class _ChatScreenState extends State<ChatScreen> {
   final List<ChatMessage> _messages = [];
   final TextEditingController _controller = TextEditingController();
 
+  String? _selectedOption;
+  bool _showPrompt = true;
+
   @override
   void initState() {
     super.initState();
@@ -25,6 +29,12 @@ class _ChatScreenState extends State<ChatScreen> {
         text: 'https://www.youtube.com/watch?v=xNRuonwDGrg',
         isUser: false,
         type: MessageType.videoCard,
+      ),
+      ChatMessage(
+        text:
+            "\u2708\ufe0f We're ready to create your travel plan!\nWould you like to get started now?",
+        isUser: false,
+        type: MessageType.prompt,
       ),
     ]);
   }
@@ -38,6 +48,16 @@ class _ChatScreenState extends State<ChatScreen> {
     });
 
     _controller.clear();
+  }
+
+  void _handlePromptConfirm() {
+    if (_selectedOption == null) return;
+
+    setState(() {
+      _messages.add(ChatMessage(text: _selectedOption!, isUser: true));
+      _showPrompt = false;
+      _selectedOption = null;
+    });
   }
 
   @override
@@ -59,8 +79,20 @@ class _ChatScreenState extends State<ChatScreen> {
                   Expanded(
                     child: ListView.builder(
                       padding: const EdgeInsets.all(12),
-                      itemCount: _messages.length,
+                      itemCount: _messages.length + (_showPrompt ? 1 : 0),
                       itemBuilder: (context, index) {
+                        if (_showPrompt && index == _messages.length) {
+                          return TravelPlanPrompt(
+                            selectedOption: _selectedOption,
+                            onSelect: (value) {
+                              setState(() {
+                                _selectedOption = value;
+                              });
+                            },
+                            onConfirm: _handlePromptConfirm,
+                          );
+                        }
+
                         final msg = _messages[index];
                         if (msg.type == MessageType.videoCard) {
                           return YouTubeCard(
