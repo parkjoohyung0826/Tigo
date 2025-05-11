@@ -90,10 +90,7 @@ class TigoHomePage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const CircleAvatar(
-                  radius: 24,
-                  backgroundImage: AssetImage('assets/profile.png'),
-                ),
+                const CircleAvatar(radius: 24),
                 const SizedBox(height: 8),
                 const Text(
                   'Hi, scott',

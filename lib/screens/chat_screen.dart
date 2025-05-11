@@ -17,29 +17,28 @@ class _ChatScreenState extends State<ChatScreen> {
   final List<ChatMessage> _messages = [];
   final TextEditingController _controller = TextEditingController();
 
-  String? _selectedOption;
-  bool _showPrompt = true;
+  final List<String> _questions = [
+    "Where would you like to go?",
+    "How long will your trip be?",
+    "Who are you traveling with?",
+    "What kind of vibe do you want for this trip?",
+    "What's your approximate budget?",
+  ];
+
+  int _currentQuestionIndex = -1;
+  final List<String> _userAnswers = [];
 
   @override
   void initState() {
     super.initState();
     _messages.addAll([
       ChatMessage(
-        text: 'Welcome! Let’s plan your perfect trip.😊',
+        text: 'Welcome! Let’s plan your perfect trip. 😊',
         isUser: false,
       ),
-      ChatMessage(
-        text: 'https://www.youtube.com/watch?v=xNRuonwDGrg',
-        isUser: false,
-        type: MessageType.videoCard,
-      ),
-      ChatMessage(
-        text:
-            "\u2708\ufe0f We're ready to create your travel plan!\nWould you like to get started now?",
-        isUser: false,
-        type: MessageType.prompt,
-      ),
+      ChatMessage(text: _questions[0], isUser: false),
     ]);
+    _currentQuestionIndex = 0;
   }
 
   void _handleSend() {
@@ -48,18 +47,50 @@ class _ChatScreenState extends State<ChatScreen> {
 
     setState(() {
       _messages.add(ChatMessage(text: text, isUser: true));
-    });
+      _userAnswers.add(text);
+      _controller.clear();
 
-    _controller.clear();
+      if (_currentQuestionIndex < _questions.length - 1) {
+        _currentQuestionIndex++;
+        _messages.add(
+          ChatMessage(text: _questions[_currentQuestionIndex], isUser: false),
+        );
+      } else {
+        // 마지막 질문까지 끝났을 때 추가 안내 및 유튜브 카드
+        _messages.addAll([
+          ChatMessage(
+            text:
+                "🎉 Based on your answers, we've created your travel plan!\nCheck out these destinations!",
+            isUser: false,
+          ),
+          ChatMessage(
+            text: 'https://www.youtube.com/watch?v=tLa4ZOuKrB4',
+            isUser: false,
+            type: MessageType.videoCard,
+          ),
+          ChatMessage(
+            text: 'https://www.youtube.com/watch?v=og8-1uxL9UI',
+            isUser: false,
+            type: MessageType.videoCard,
+          ),
+          ChatMessage(
+            text: 'https://www.youtube.com/watch?v=B0oSqtECRrQ',
+            isUser: false,
+            type: MessageType.videoCard,
+          ),
+          ChatMessage(
+            text: "Would you like to add this destination to your trip? ✍️",
+            isUser: false,
+          ),
+        ]);
+      }
+    });
   }
 
-  void _handlePromptConfirm() {
-    if (_selectedOption == null) return;
-
+  void _startTravelPlan() {
     setState(() {
-      _messages.add(ChatMessage(text: _selectedOption!, isUser: true));
-      _showPrompt = false;
-      _selectedOption = null;
+      _currentQuestionIndex = 0;
+      _messages.add(ChatMessage(text: _questions[0], isUser: false));
     });
   }
 
@@ -82,20 +113,8 @@ class _ChatScreenState extends State<ChatScreen> {
                   Expanded(
                     child: ListView.builder(
                       padding: const EdgeInsets.all(12),
-                      itemCount: _messages.length + (_showPrompt ? 1 : 0),
+                      itemCount: _messages.length,
                       itemBuilder: (context, index) {
-                        if (_showPrompt && index == _messages.length) {
-                          return TravelPlanPrompt(
-                            selectedOption: _selectedOption,
-                            onSelect: (value) {
-                              setState(() {
-                                _selectedOption = value;
-                              });
-                            },
-                            onConfirm: _handlePromptConfirm,
-                          );
-                        }
-
                         final msg = _messages[index];
                         if (msg.type == MessageType.videoCard) {
                           return YouTubeCard(
@@ -106,16 +125,6 @@ class _ChatScreenState extends State<ChatScreen> {
                               setState(() {
                                 _messages[index].feedback = feedback;
                               });
-                              final snackText =
-                                  feedback == 0
-                                      ? 'You accepted the recommendation.'
-                                      : 'You rejected the recommendation.';
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(snackText),
-                                  duration: const Duration(seconds: 2),
-                                ),
-                              );
                             },
                             onPlay: () {
                               setState(() {
@@ -135,7 +144,9 @@ class _ChatScreenState extends State<ChatScreen> {
                       },
                     ),
                   ),
-                  InputBar(controller: _controller, onSend: _handleSend),
+                  _currentQuestionIndex == -1
+                      ? const SizedBox.shrink() // 질문이 바로 시작되므로 버튼은 제거
+                      : InputBar(controller: _controller, onSend: _handleSend),
                 ],
               ),
             ),
@@ -147,7 +158,6 @@ class _ChatScreenState extends State<ChatScreen> {
 
   Widget _buildHeader() {
     return Column(
-      mainAxisSize: MainAxisSize.min,
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
@@ -161,11 +171,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 child: Center(
                   child: Text(
                     'Ask me anything',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.black,
-                    ),
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
                   ),
                 ),
               ),
