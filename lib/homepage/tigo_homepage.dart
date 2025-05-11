@@ -3,6 +3,8 @@ import '../screens/chat_screen.dart';
 import '../screens/trip_screen.dart';
 import '../screens/my_screen.dart';
 import '../screens/list_screen.dart';
+import '../widgets/home/tigo_pick_today_section.dart';
+import '../widgets/home/place_detail_modal.dart';
 
 class TigoHomePage extends StatelessWidget {
   const TigoHomePage({super.key});
@@ -13,7 +15,6 @@ class TigoHomePage extends StatelessWidget {
       backgroundColor: const Color(0xFFF6F8FA),
       body: Stack(
         children: [
-          // 상단 배경 이미지
           Positioned(
             top: 0,
             left: 0,
@@ -25,22 +26,22 @@ class TigoHomePage extends StatelessWidget {
               alignment: Alignment.topCenter,
             ),
           ),
-
           Positioned(
-            top: 320,
+            top: 420,
             left: 0,
             right: 0,
             bottom: 0,
-            child: Container(
-              decoration: const BoxDecoration(
-                color: Color(0xFFF6F8FA),
-                borderRadius: BorderRadius.vertical(top: Radius.circular(40)),
-              ),
+            child: TigoPickTodaySection(
+              onInfoTap: () {
+                showDialog(
+                  context: context,
+                  builder: (_) => const PlaceDetailModal(),
+                );
+              },
             ),
           ),
-
           Positioned(
-            top: 250,
+            top: 300,
             left: 24,
             right: 24,
             child: Row(
@@ -55,7 +56,9 @@ class TigoHomePage extends StatelessWidget {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => const ListScreen()),
+                        MaterialPageRoute(
+                          builder: (context) => const ListScreen(),
+                        ),
                       );
                     },
                   ),
@@ -71,7 +74,9 @@ class TigoHomePage extends StatelessWidget {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => const ChatScreen()),
+                        MaterialPageRoute(
+                          builder: (context) => const ChatScreen(),
+                        ),
                       );
                     },
                   ),
@@ -79,48 +84,6 @@ class TigoHomePage extends StatelessWidget {
               ],
             ),
           ),
-
-          // 캐릭터 박스
-          Positioned(
-            top: 400,
-            left: 16,
-            right: 16,
-            bottom: 160,
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(20),
-                border: Border.all(color: const Color(0xFFBFDFFF), width: 2.5),
-              ),
-              padding: const EdgeInsets.symmetric(vertical: 40),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset(
-                    'assets/tigo_character.png',
-                    width: 120,
-                    height: 120,
-                  ),
-                  const SizedBox(height: 24),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: List.generate(4, (_) {
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8),
-                        child: CircleAvatar(
-                          radius: 24,
-                          backgroundColor: const Color(0xFFE6F1FF),
-                          child: const Icon(Icons.list, color: Color(0xFF468DE0)),
-                        ),
-                      );
-                    }),
-                  ),
-                ],
-              ),
-            ),
-          ),
-
-          // 프로필 + 텍스트
           Positioned(
             top: 72,
             left: 24,
@@ -148,8 +111,6 @@ class TigoHomePage extends StatelessWidget {
               ],
             ),
           ),
-
-          // 하단 내비게이션 바 + 홈 버튼
           Positioned(
             bottom: 0,
             left: 0,
@@ -162,27 +123,37 @@ class TigoHomePage extends StatelessWidget {
                   height: 96,
                   decoration: const BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+                    borderRadius: BorderRadius.vertical(
+                      top: Radius.circular(24),
+                    ),
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      const Icon(Icons.video_call, color: Colors.grey, size: 28),
+                      const Icon(
+                        Icons.video_call,
+                        color: Colors.grey,
+                        size: 28,
+                      ),
                       const SizedBox(width: 40),
                       GestureDetector(
                         onTap: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => const MyPageScreen()),
+                            MaterialPageRoute(
+                              builder: (context) => const MyPageScreen(),
+                            ),
                           );
                         },
-                        child: const Icon(Icons.person, color: Colors.grey, size: 28),
+                        child: const Icon(
+                          Icons.person,
+                          color: Colors.grey,
+                          size: 28,
+                        ),
                       ),
                     ],
                   ),
                 ),
-
-                // 홈 버튼
                 Positioned(
                   top: -36,
                   child: Container(
@@ -203,7 +174,11 @@ class TigoHomePage extends StatelessWidget {
                         ),
                       ],
                     ),
-                    child: const Icon(Icons.home, color: Colors.white, size: 30),
+                    child: const Icon(
+                      Icons.home,
+                      color: Colors.white,
+                      size: 30,
+                    ),
                   ),
                 ),
               ],
@@ -260,10 +235,7 @@ class _PlanCard extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 8),
-            Text(
-              title,
-              style: const TextStyle(fontWeight: FontWeight.bold),
-            ),
+            Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
             Text(
               'created at $date',
               style: const TextStyle(fontSize: 12, color: Colors.grey),
