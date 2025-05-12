@@ -34,8 +34,8 @@ class Header extends StatelessWidget {
         child: CupertinoSwitch(
           value: toggleValue,
           onChanged: onToggle,
-          activeColor: Color(0xFF55A3F1), // 파란색 트랙
-          // thumbColor: Colors.white, // Flutter 버전에 따라 이게 필요 없을 수도 있어요
+          activeColor: Color(0xFF55A3F1),
+          // thumbColor: Colors.white,
          ),
          ),
         ],

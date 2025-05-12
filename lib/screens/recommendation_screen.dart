@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import '../widgets/trip_plan/header.dart';
 import 'place_screen.dart';
-import '../widgets/ask_tigo_button.dart'; // ✅ 티고 버튼 import
+import '../widgets/ask_tigo_button.dart';
+import 'vibe_result_screen.dart';
 
 class RecommendationScreen extends StatefulWidget {
   const RecommendationScreen({super.key});
@@ -71,7 +72,7 @@ class _RecommendationScreenState extends State<RecommendationScreen> {
           DraggableScrollableSheet(
             initialChildSize: 0.55,
             minChildSize: 0.50,
-            maxChildSize: 0.90,
+            maxChildSize: 0.70,
             builder: (context, scrollController) {
               return Container(
                 decoration: const BoxDecoration(
@@ -165,6 +166,20 @@ class _RecommendationScreenState extends State<RecommendationScreen> {
                               Expanded(
                                 child: ElevatedButton(
                                   onPressed: () {
+                                    if (selectedMoods.isNotEmpty) {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => VibeResultScreen(selectedMoods: selectedMoods.toList()),
+                                        ),
+                                      );
+                                    } else {
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        const SnackBar(
+                                          content: Text('Please select at least one vibe.'),
+                                        ),
+                                      );
+                                    }
                                   },
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: const Color(0xFF1F1F1F),

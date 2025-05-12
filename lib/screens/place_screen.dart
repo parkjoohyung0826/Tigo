@@ -16,7 +16,6 @@ class PlaceDetailScreen extends StatelessWidget {
             child: const PlaceImage(),
           ),
           const PlaceInfoSheet(),
-          // 뒤로가기 버튼
           SafeArea(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
